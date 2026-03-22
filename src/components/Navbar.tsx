@@ -55,7 +55,7 @@ export function Navbar({ currentPage, setCurrentPage }: NavbarProps) {
             className="flex items-center gap-2"
           >
             <img 
-              src="/src/image/Aiwana-logo.png" 
+              src="/Aiwana-logo.png" 
               alt="Aiwana Solution" 
               className="h-18 sm:h-32 w-auto"
               style={{ filter: 'contrast(1.2)' }} 
