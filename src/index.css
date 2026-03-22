@@ -1,0 +1,25 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import './styles/globals.css';
+
+@layer base {
+  html, body, #root { min-height: 100vh; height: 100%; margin: 0; }
+
+  /* Update logo and bot image references */
+  .logo {
+    background-image: url('../src/image/aiwnaa-logo.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 120px;
+    height: 40px;
+  }
+  .bot {
+    background-image: url('../src/image/aiwana-bot.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+  }
+}
