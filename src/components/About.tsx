@@ -45,7 +45,7 @@ export function About() {
               Building Digital Excellence Since Day One
             </h2>
             <p className="text-gray-600 mb-6">
-              Axcelgro Solution is a leading IT solutions provider dedicated to transforming 
+              Aiwana Solution is a leading IT solutions provider dedicated to transforming 
               businesses through technology. With a team of expert developers, designers, and 
               digital marketers, we deliver comprehensive solutions that drive real results.
             </p>

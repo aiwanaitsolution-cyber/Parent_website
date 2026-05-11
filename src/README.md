@@ -1,6 +1,6 @@
-# Axcelgro Solution - Professional IT Company Website
+# Aiwana Solution - Professional IT Company Website
 
-A fully responsive, production-ready website for Axcelgro Solution, an IT company based in Noida specializing in AI automation, custom software development, and business solutions.
+A fully responsive, production-ready website for Aiwana Solution, an IT company based in Noida specializing in AI automation, custom software development, and business solutions.
 
 ## 🚀 Features
 
@@ -40,9 +40,9 @@ A fully responsive, production-ready website for Axcelgro Solution, an IT compan
 
 ## 📞 Contact Information
 
-- **Email:** shankranandsarswati8@gmail.com
+- **Email:** aiwanaitsolution@gmail.com
 - **Phone:** +91 6203447902
-- **Address:** SK-64, Sector 112, Noida, Uttar Pradesh, India
+- **Address:** Noida, Uttar Pradesh, India
 
 ## 🎨 Key Components
 
@@ -143,4 +143,4 @@ The website follows modern design principles:
 
 ---
 
-**Built with ❤️ by Axcelgro Solution**
+**Built with ❤️ by Aiwana Solution**

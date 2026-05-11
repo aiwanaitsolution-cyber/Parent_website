@@ -25,7 +25,7 @@ export function VoiceBot() {
     }
 
     if (lowerText.includes('contact') || lowerText.includes('phone') || lowerText.includes('email')) {
-      return 'You can reach us at email shankranandsarswati8@gmail.com or call us at +91 6203447902. Our office is located at SK-64, Sector 112, Noida, Uttar Pradesh, India.';
+      return 'You can reach us at email aiwanaitsolution@gmail.com or call us at +91 6203447902. Our office is located in Noida, Uttar Pradesh, India.';
     }
 
     if (lowerText.includes('price') || lowerText.includes('cost')) {
@@ -33,7 +33,7 @@ export function VoiceBot() {
     }
 
     if (lowerText.includes('hello') || lowerText.includes('hi')) {
-      return 'Hello! Welcome to Axcelgro Solution. We specialize in AI automation and custom software development. How can I help you today?';
+      return 'Hello! Welcome to Aiwana Solution. We specialize in AI automation and custom software development. How can I help you today?';
     }
 
     return 'I can help you with information about our services, AI automation, products, pricing, and contact details. What would you like to know?';
@@ -49,7 +49,7 @@ export function VoiceBot() {
       utterance.onend = () => setIsSpeaking(false);
       window.speechSynthesis.speak(utterance);
     } else {
-      alert('Speech synthesis not supported in your browser');
+      console.log('Speech synthesis not supported in your browser');
     }
   };
 
@@ -92,7 +92,7 @@ export function VoiceBot() {
 
       recognition.start();
     } else {
-      alert('Speech recognition not supported in your browser. Please use Chrome or Edge.');
+      console.log('Speech recognition not supported in your browser. Please use Chrome or Edge.');
     }
   };
 

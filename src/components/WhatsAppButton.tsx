@@ -4,7 +4,7 @@ import { MessageCircle } from 'lucide-react';
 export function WhatsAppButton() {
   const handleWhatsAppClick = () => {
     const phoneNumber = '916203447902'; // Include country code without +
-    const message = 'Hello Axcelgro Solution! I would like to inquire about your services.';
+    const message = 'Hello Aiwana Solution! I would like to inquire about your services.';
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };

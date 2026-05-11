@@ -17,7 +17,7 @@ export function Contact() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle form submission
-    alert('Thank you for your message! We will get back to you soon.');
+    console.log('Thank you for your message! We will get back to you soon.');
     setFormData({ name: '', email: '', phone: '', service: '', message: '' });
   };
 
@@ -29,9 +29,9 @@ export function Contact() {
     {
       icon: Mail,
       title: 'Email Us',
-      info: 'shankranandsarswati8@gmail.com',
+      info: 'aiwanaitsolution@gmail.com',
       subtext: 'We reply within 2 hours',
-      link: 'mailto:shankranandsarswati8@gmail.com',
+      link: 'mailto:aiwanaitsolution@gmail.com',
     },
     {
       icon: Phone,
@@ -43,7 +43,7 @@ export function Contact() {
     {
       icon: MapPin,
       title: 'Visit Us',
-      info: 'SK-64, Sector 112, Noida, Uttar Pradesh, India',
+      info: 'Noida, Uttar Pradesh, India',
       subtext: 'Schedule an appointment',
       link: '#',
     },

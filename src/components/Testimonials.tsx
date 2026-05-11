@@ -11,7 +11,7 @@ export function Testimonials() {
     {
       name: 'Rajesh Kumar',
       role: 'CEO, TechStart India',
-      content: 'Axcelgro transformed our business with their AI automation. Revenue increased by 300%!',
+      content: 'Aiwana transformed our business with their AI automation. Revenue increased by 300%!',
       rating: 5,
       avatar: 'RK',
     },

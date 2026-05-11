@@ -56,12 +56,12 @@ export function ChatBot() {
 
     // Contact
     if (lowerMessage.includes('contact') || lowerMessage.includes('phone') || lowerMessage.includes('email')) {
-      return 'You can reach us at:\n📧 Email: shankranandsarswati8@gmail.com\n📞 Phone: +91 6203447902\n📍 Address: SK-64, Sector 112, Noida, UP, India\n\nWould you like to book a meeting?';
+      return 'You can reach us at:\n📧 Email: aiwanaitsolution@gmail.com\n📞 Phone: +91 6203447902\n📍 Address: Noida, Uttar Pradesh, India\n\nWould you like to book a meeting?';
     }
 
     // Greeting
     if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
-      return 'Hello! Welcome to Axcelgro Solution. We specialize in AI automation, custom software, and business solutions. How can I assist you today?';
+      return 'Hello! Welcome to Aiwana Solution. We specialize in AI automation, custom software, and business solutions. How can I assist you today?';
     }
 
     // Thank you
@@ -146,7 +146,7 @@ export function ChatBot() {
                   <img src="/src/image/aiwana-bot.png" alt="Aiwana Bot" className="w-8 h-8 object-contain" />
                 </div>
                 <div>
-                  <h3 className="font-semibold">Axcelgro AI Assistant</h3>
+                  <h3 className="font-semibold">Aiwana AI Assistant</h3>
                   <div className="flex items-center gap-2 text-xs">
                     <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
                     <span>Online</span>

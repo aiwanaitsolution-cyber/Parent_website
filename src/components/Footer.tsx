@@ -2,14 +2,14 @@ import { motion } from 'motion/react';
 import { Facebook, Twitter, Linkedin, Instagram, Youtube } from 'lucide-react';
 
 interface FooterProps {
-  setCurrentPage: (page: string) => void;
+  navigateToPage: (page: string) => void;
 }
 
-export function Footer({ setCurrentPage }: FooterProps) {
+export function Footer({ navigateToPage }: FooterProps) {
   const currentYear = new Date().getFullYear();
 
   const handleNavClick = (page: string) => {
-    setCurrentPage(page);
+    navigateToPage(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -47,7 +47,7 @@ export function Footer({ setCurrentPage }: FooterProps) {
               transition={{ duration: 0.6 }}
             >
               <div className="mb-4">
-                <span className="text-2xl">Axcelgro</span>
+                <span className="text-2xl">Aiwana</span>
                 <span className="ml-1">Solution</span>
               </div>
               <p className="text-gray-400 mb-6 max-w-sm">
@@ -83,7 +83,7 @@ export function Footer({ setCurrentPage }: FooterProps) {
               {footerLinks.company.map((link) => (
                 <li key={link.name}>
                   <a
-                    href="#"
+                    href="/"
                     onClick={() => handleNavClick(link.page)}
                     className="text-gray-400 hover:text-white transition-colors duration-300"
                   >
@@ -105,7 +105,7 @@ export function Footer({ setCurrentPage }: FooterProps) {
               {footerLinks.services.map((link) => (
                 <li key={link.name}>
                   <a
-                    href="#"
+                    href="/"
                     onClick={() => handleNavClick(link.page)}
                     className="text-gray-400 hover:text-white transition-colors duration-300"
                   >
@@ -127,16 +127,16 @@ export function Footer({ setCurrentPage }: FooterProps) {
         >
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-gray-400 text-sm">
-              © {currentYear} Axcelgro Solution. All rights reserved.
+              © {currentYear} Aiwana Solution. All rights reserved.
             </p>
             <div className="flex gap-6 text-sm">
-              <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">
+              <a href="/" className="text-gray-400 hover:text-white transition-colors duration-300">
                 Privacy Policy
               </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">
+              <a href="/" className="text-gray-400 hover:text-white transition-colors duration-300">
                 Terms of Service
               </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">
+              <a href="/" className="text-gray-400 hover:text-white transition-colors duration-300">
                 Cookie Policy
               </a>
             </div>

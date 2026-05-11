@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'motion/react';
-import { useState } from 'react';
-import { Mic, MicOff, Volume2, VolumeX, X, Minimize2 } from 'lucide-react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
+import { Mic, MicOff, Send, Volume2, VolumeX, X, Minimize2 } from 'lucide-react';
+import { aiwanaBotSuggestions, answerAiwanaQuestion } from '../lib/aiwanaKnowledge';
 
 export function ImprovedVoiceBot() {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,40 +11,22 @@ export function ImprovedVoiceBot() {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [transcript, setTranscript] = useState('');
   const [response, setResponse] = useState('');
+  const [typedQuestion, setTypedQuestion] = useState('');
   const [error, setError] = useState('');
+  const recognitionRef = useRef<any>(null);
 
-  const getVoiceResponse = (text: string): string => {
-    const lowerText = text.toLowerCase();
+  useEffect(() => {
+    return () => {
+      recognitionRef.current?.abort?.();
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    };
+  }, []);
 
-    if (lowerText.includes('service') || lowerText.includes('what do you do')) {
-      return 'We offer Custom Software Development, Mobile App Development, Cloud Solutions, AI Automation, and Digital Marketing. We are a startup with expert specialists ready to help your business grow.';
-    }
-
-    if (lowerText.includes('ai') || lowerText.includes('automation')) {
-      return 'Our AI Automation includes AI Calling Agents, Lead Generation, WhatsApp Business AI, and Appointment Booking. They reduce operational costs significantly and work twenty four seven.';
-    }
-
-    if (lowerText.includes('product')) {
-      return 'We have three main products. HRM for human resource management at forty nine dollars per month, CRM for customer relationships at fifty nine dollars, and ERP for enterprise planning at ninety nine dollars per month. All include free trials.';
-    }
-
-    if (lowerText.includes('contact') || lowerText.includes('phone') || lowerText.includes('email')) {
-      return 'You can reach us at email shankranandsarswati8@gmail.com or call us at +91 6203447902. Our office is located at SK-64, Sector 112, Noida, Uttar Pradesh, India.';
-    }
-
-    if (lowerText.includes('price') || lowerText.includes('cost')) {
-      return 'Our SaaS products start from forty nine dollars per month. Custom development projects vary by scope. We offer flexible payment plans and free consultations.';
-    }
-
-    if (lowerText.includes('team') || lowerText.includes('about') || lowerText.includes('startup')) {
-      return 'We are a passionate startup based in Noida with expert specialists in AI, software development, and digital marketing. Small team, big impact. We focus on delivering innovative solutions quickly.';
-    }
-
-    if (lowerText.includes('hello') || lowerText.includes('hi')) {
-      return 'Hello! Welcome to Aiwana Solution. We are a startup specializing in AI automation and custom software development. How can I help you today?';
-    }
-
-    return 'I can help you with information about our services, AI automation, products, pricing, our team, and contact details. What would you like to know?';
+  const handleAnswer = (text: string) => {
+    const botResponse = answerAiwanaQuestion(text);
+    setTranscript(text);
+    setResponse(botResponse);
+    speak(botResponse);
   };
 
   const speak = (text: string) => {
@@ -72,19 +55,28 @@ export function ImprovedVoiceBot() {
     }
   };
 
+  const stopListening = () => {
+    recognitionRef.current?.stop?.();
+    recognitionRef.current = null;
+    setIsListening(false);
+  };
+
   const startListening = () => {
     setError('');
+    stopSpeaking();
     
     if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-      setError('Speech recognition not supported. Please use Chrome or Edge browser.');
+      setError('Voice input is not supported in this browser. Type your question below and I will still answer.');
       return;
     }
 
     const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition;
     const recognition = new SpeechRecognition();
+    recognitionRef.current = recognition;
     recognition.continuous = false;
-    recognition.interimResults = false;
-    recognition.lang = 'en-US';
+    recognition.interimResults = true;
+    recognition.lang = 'en-IN';
+    recognition.maxAlternatives = 1;
 
     recognition.onstart = () => {
       setIsListening(true);
@@ -94,32 +86,59 @@ export function ImprovedVoiceBot() {
     };
 
     recognition.onresult = (event: any) => {
-      const speechResult = event.results[0][0].transcript;
-      setTranscript(speechResult);
-      const botResponse = getVoiceResponse(speechResult);
-      setResponse(botResponse);
-      speak(botResponse);
+      const results = Array.from(event.results || []) as any[];
+      const speechResult = results.map((result) => result?.[0]?.transcript || '').join(' ').trim();
+      if (speechResult) setTranscript(speechResult);
+
+      const hasFinal = results.some((result) => result?.isFinal);
+      if (!hasFinal) return;
+
+      if (!speechResult) {
+        setResponse('I could not hear a clear question. You can try voice again or type your question below.');
+        return;
+      }
+      handleAnswer(speechResult);
     };
 
     recognition.onerror = (event: any) => {
       setIsListening(false);
       if (event.error === 'no-speech') {
-        setError('No speech detected. Please try again.');
+        setTranscript('');
+        setResponse('I did not catch any voice. Please tap Start and speak after the listening message, or type your question below.');
+        setError('');
       } else if (event.error === 'not-allowed') {
-        setError('Microphone access denied. Please enable microphone permissions.');
+        setError('Microphone access denied. Enable microphone permission or type your question below.');
+      } else if (event.error === 'network') {
+        setError('Voice recognition network error. Type your question below and I will answer.');
       } else {
-        setError('Error occurred. Please try again.');
+        setError('Voice input failed. Please try again or type your question below.');
       }
     };
 
     recognition.onend = () => {
       setIsListening(false);
+      recognitionRef.current = null;
     };
 
-    recognition.start();
+    try {
+      recognition.start();
+    } catch {
+      setIsListening(false);
+      setError('Voice input is already starting. Please wait a moment or type below.');
+    }
+  };
+
+  const submitTypedQuestion = (event: FormEvent) => {
+    event.preventDefault();
+    if (!typedQuestion.trim()) return;
+    const question = typedQuestion.trim();
+    setTypedQuestion('');
+    setError('');
+    handleAnswer(question);
   };
 
   const handleClose = () => {
+    stopListening();
     stopSpeaking();
     setIsVisible(false);
   };
@@ -132,21 +151,22 @@ export function ImprovedVoiceBot() {
       <AnimatePresence>
         {!isOpen && (
           <motion.div
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
+            initial={false}
+            animate={{ scale: [1, 1.04, 1], opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
-            className="fixed bottom-24 right-6 z-40"
+            transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+            className="fixed bottom-24 right-4 z-[60] sm:bottom-24 sm:right-6"
           >
             <button
               onClick={() => setIsOpen(true)}
-              className="bg-gradient-to-r from-purple-600 to-pink-600 text-white w-14 h-14 sm:w-16 sm:h-16 rounded-full shadow-2xl flex items-center justify-center hover:shadow-purple-500/50 transition-shadow duration-300 relative group"
+              className="group relative flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-r from-violet-600 via-fuchsia-600 to-sky-500 text-white shadow-2xl shadow-violet-500/30 transition-shadow duration-300 hover:shadow-violet-500/50 sm:h-16 sm:w-16"
               aria-label="Open voice assistant"
             >
               <Mic size={28} />
               
               {/* Tooltip */}
               <div className="absolute right-full mr-3 px-4 py-2 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                Voice Assistant
+                AI Voice Assistant
                 <div className="absolute top-1/2 -right-1 -translate-y-1/2 w-2 h-2 bg-gray-900 rotate-45" />
               </div>
             </button>
@@ -161,17 +181,17 @@ export function ImprovedVoiceBot() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
-            className="fixed bottom-24 right-6 z-50 w-[90vw] sm:w-96 max-w-[420px] bg-white rounded-2xl shadow-2xl overflow-hidden"
+            className="fixed bottom-24 right-4 z-50 max-h-[82vh] w-[92vw] max-w-[420px] overflow-hidden rounded-[1.5rem] bg-white shadow-2xl shadow-violet-950/20 sm:bottom-28 sm:right-6 sm:w-96"
           >
             {/* Header */}
-            <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-4 flex items-center justify-between">
+            <div className="flex items-center justify-between bg-gradient-to-r from-violet-700 via-fuchsia-600 to-sky-500 p-4 text-white">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
                   <Mic size={24} />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-sm sm:text-base">Voice Assistant</h3>
-                  <p className="text-xs">Speak naturally</p>
+                  <h3 className="text-sm font-semibold sm:text-base">Aiwana Voice Bot</h3>
+                  <p className="text-xs">Ask about services, products and audit</p>
                 </div>
               </div>
               <div className="flex gap-2">
@@ -185,6 +205,7 @@ export function ImprovedVoiceBot() {
                 <button
                   onClick={() => {
                     setIsOpen(false);
+                    stopListening();
                     stopSpeaking();
                   }}
                   className="hover:bg-white/20 p-2 rounded-lg transition-colors"
@@ -196,12 +217,12 @@ export function ImprovedVoiceBot() {
             </div>
 
             {/* Content */}
-            <div className="p-6">
+            <div className="max-h-[calc(82vh-76px)] overflow-y-auto p-6">
               {/* Visualizer */}
               <div className="flex justify-center mb-6">
                 <motion.div
-                  className={`w-24 h-24 rounded-full flex items-center justify-center ${
-                    isListening ? 'bg-gradient-to-r from-purple-500 to-pink-500' : isSpeaking ? 'bg-gradient-to-r from-blue-500 to-cyan-500' : 'bg-gray-200'
+                  className={`flex h-24 w-24 items-center justify-center rounded-full ${
+                    isListening ? 'bg-gradient-to-r from-violet-600 to-fuchsia-500' : isSpeaking ? 'bg-gradient-to-r from-sky-500 to-violet-500' : 'bg-violet-50'
                   }`}
                   animate={
                     isListening || isSpeaking
@@ -222,7 +243,7 @@ export function ImprovedVoiceBot() {
                   ) : isSpeaking ? (
                     <Volume2 className="text-white" size={40} />
                   ) : (
-                    <MicOff className="text-gray-500" size={40} />
+                    <MicOff className="text-violet-500" size={40} />
                   )}
                 </motion.div>
               </div>
@@ -233,7 +254,7 @@ export function ImprovedVoiceBot() {
                   <motion.p
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="text-purple-600 font-semibold text-sm"
+                    className="text-sm font-semibold text-violet-600"
                   >
                     Listening... Speak now
                   </motion.p>
@@ -248,7 +269,7 @@ export function ImprovedVoiceBot() {
                   </motion.p>
                 )}
                 {!isListening && !isSpeaking && !error && (
-                  <p className="text-gray-600 text-sm">Click the microphone to start</p>
+                  <p className="text-sm text-slate-600">Click the microphone to start</p>
                 )}
               </div>
 
@@ -261,7 +282,7 @@ export function ImprovedVoiceBot() {
 
               {/* Transcript */}
               {transcript && transcript !== 'Listening...' && (
-                <div className="mb-4 p-4 bg-purple-50 rounded-xl">
+                <div className="mb-4 rounded-xl bg-violet-50 p-4">
                   <p className="text-xs text-purple-600 mb-1">You said:</p>
                   <p className="text-sm text-gray-800 break-words">{transcript}</p>
                 </div>
@@ -269,7 +290,7 @@ export function ImprovedVoiceBot() {
 
               {/* Response */}
               {response && (
-                <div className="mb-4 p-4 bg-blue-50 rounded-xl">
+                <div className="mb-4 rounded-xl bg-sky-50 p-4">
                   <p className="text-xs text-blue-600 mb-1">Response:</p>
                   <p className="text-sm text-gray-800 break-words">{response}</p>
                 </div>
@@ -282,11 +303,23 @@ export function ImprovedVoiceBot() {
                   whileTap={{ scale: 0.95 }}
                   onClick={startListening}
                   disabled={isListening || isSpeaking}
-                  className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm"
+                  className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-700 to-fuchsia-600 py-3 text-sm text-white disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <Mic size={20} />
                   {isListening ? 'Listening...' : 'Start'}
                 </motion.button>
+                {isListening && (
+                  <motion.button
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={stopListening}
+                    className="flex items-center justify-center rounded-xl bg-slate-900 px-4 py-3 text-white"
+                  >
+                    Stop
+                  </motion.button>
+                )}
                 {isSpeaking && (
                   <motion.button
                     initial={{ scale: 0 }}
@@ -301,10 +334,22 @@ export function ImprovedVoiceBot() {
                 )}
               </div>
 
+              <form onSubmit={submitTypedQuestion} className="mt-4 flex gap-2">
+                <input
+                  value={typedQuestion}
+                  onChange={(event) => setTypedQuestion(event.target.value)}
+                  placeholder="Or type your question..."
+                  className="min-w-0 flex-1 rounded-xl border border-violet-100 bg-violet-50 px-4 py-3 text-sm text-slate-950 outline-none focus:border-violet-400"
+                />
+                <button className="rounded-xl bg-violet-600 px-4 text-white" aria-label="Send voice bot text question">
+                  <Send size={18} />
+                </button>
+              </form>
+
               {/* Tips */}
-              <div className="mt-4 p-3 bg-blue-50 rounded-lg">
-                <p className="text-xs text-blue-800">
-                  <strong>Try asking:</strong> "What services do you offer?", "Tell me about AI automation", "What are your products?", "How can I contact you?", "Tell me about your team"
+              <div className="mt-4 rounded-lg bg-violet-50 p-3">
+                <p className="text-xs text-violet-900">
+                  <strong>Try asking:</strong> {aiwanaBotSuggestions.map((item) => `"${item}"`).join(', ')}
                 </p>
               </div>
             </div>
@@ -316,11 +361,11 @@ export function ImprovedVoiceBot() {
       <AnimatePresence>
         {isOpen && isMinimized && (
           <motion.button
-            initial={{ scale: 0 }}
+            initial={false}
             animate={{ scale: 1 }}
             exit={{ scale: 0 }}
             onClick={() => setIsMinimized(false)}
-            className="fixed bottom-24 right-6 z-50 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-full shadow-2xl hover:shadow-purple-500/50 transition-shadow flex items-center gap-2"
+            className="fixed bottom-24 right-4 z-[60] flex items-center gap-2 rounded-full bg-gradient-to-r from-violet-700 to-fuchsia-600 px-5 py-3 text-white shadow-2xl transition-shadow hover:shadow-violet-500/50 sm:bottom-24 sm:right-6 sm:px-6"
           >
             <Mic size={20} />
             <span className="text-sm">Open Voice</span>

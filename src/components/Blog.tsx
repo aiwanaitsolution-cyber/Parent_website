@@ -143,7 +143,7 @@ export function Blog() {
                   </div>
                 </div>
                 <a
-                  href="#"
+                  href="/"
                   className="group flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors"
                 >
                   Read More
@@ -199,7 +199,7 @@ export function Blog() {
                     <span className="text-gray-700 text-sm">{post.author}</span>
                   </div>
                   <a
-                    href="#"
+                    href="/"
                     className="group/link flex items-center gap-1 text-blue-600 hover:text-blue-700 transition-colors text-sm"
                   >
                     Read

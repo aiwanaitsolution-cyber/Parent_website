@@ -7,7 +7,7 @@
 
   /* Update logo and bot image references */
   .logo {
-    background-image: url('../src/image/aiwnaa-logo.png');
+    background-image: url('/Aiwana-logo.png');
     background-size: contain;
     background-repeat: no-repeat;
     display: inline-block;
@@ -15,11 +15,22 @@
     height: 40px;
   }
   .bot {
-    background-image: url('../src/image/aiwana-bot.png');
+    background-image: url('/ai_bot.png');
     background-size: contain;
     background-repeat: no-repeat;
     display: inline-block;
     width: 60px;
     height: 60px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }

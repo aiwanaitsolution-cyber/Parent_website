@@ -64,7 +64,7 @@ export function AboutPage() {
               <h2 className="text-gray-900 mb-6 text-2xl sm:text-3xl md:text-4xl">Our Story</h2>
               <div className="space-y-4 text-gray-600 text-sm sm:text-base">
                 <p>
-                  Founded in November 2025, Axcelgro Solution emerged from a simple vision: to make cutting-edge 
+                  Founded in November 2025, Aiwana Solution emerged from a simple vision: to make cutting-edge 
                   technology accessible to businesses of all sizes. What started as a small team of passionate 
                   developers in Noida has rapidly grown into a powerhouse of innovation, serving clients across 
                   the globe.
@@ -241,14 +241,14 @@ export function AboutPage() {
               <h2 className="text-gray-900 mb-6 text-2xl sm:text-3xl md:text-4xl">Visit Our Office</h2>
               <div className="space-y-4">
                 <div>
-                  <h4 className="text-gray-900 mb-2 text-lg sm:text-xl">Axcelgro Solution</h4>
+                  <h4 className="text-gray-900 mb-2 text-lg sm:text-xl">Aiwana Solution</h4>
                   <p className="text-gray-600 text-sm sm:text-base">SK-64, Sector 112</p>
                   <p className="text-gray-600 text-sm sm:text-base">Noida, Uttar Pradesh</p>
                   <p className="text-gray-600 text-sm sm:text-base">India</p>
                 </div>
                 <div className="pt-4 border-t border-gray-200">
                   <p className="text-gray-700 mb-2 text-sm sm:text-base">
-                    <span className="text-blue-600">Email:</span> shankranandsarswati8@gmail.com
+                    <span className="text-blue-600">Email:</span> aiwanaitsolution@gmail.com
                   </p>
                   <p className="text-gray-700 text-sm sm:text-base">
                     <span className="text-blue-600">Phone:</span> +91 6203447902
@@ -263,7 +263,7 @@ export function AboutPage() {
               transition={{ duration: 0.8 }}
               className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 sm:p-8 rounded-2xl"
             >
-              <h3 className="text-gray-900 mb-6 text-xl sm:text-2xl">Why Choose Axcelgro?</h3>
+              <h3 className="text-gray-900 mb-6 text-xl sm:text-2xl">Why Choose Aiwana?</h3>
               <ul className="space-y-4">
                 {[
                   'Expertise: Decades of combined experience in cutting-edge technologies',

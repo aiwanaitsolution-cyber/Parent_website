@@ -133,6 +133,7 @@ html {
   }
 
   body {
+    overflow-x: hidden;
     @apply bg-background text-foreground;
   }
 }
@@ -194,4 +195,29 @@ html {
 
 html {
   font-size: var(--font-size);
+}
+
+main h1,
+main h2,
+main p {
+  overflow-wrap: anywhere;
+  max-width: calc(100vw - 2rem);
+}
+
+.mobile-menu-trigger {
+  display: flex;
+}
+
+.mobile-menu-fallback {
+  display: flex;
+}
+
+@media (min-width: 1024px) {
+  .mobile-menu-trigger {
+    display: none;
+  }
+
+  .mobile-menu-fallback {
+    display: none;
+  }
 }
