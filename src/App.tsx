@@ -1,4 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Navbar } from './components/Navbar';
 import { AdvancedFooter } from './components/AdvancedFooter';
 import { ImprovedChatBot } from './components/ImprovedChatBot';
@@ -42,6 +43,7 @@ function Layout() {
       <ImprovedChatBot />
       <ImprovedVoiceBot />
       <ScrollToTop />
+      <SpeedInsights />
     </div>
   );
 }
