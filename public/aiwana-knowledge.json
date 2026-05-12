@@ -1,0 +1,63 @@
+{
+  "name": "Aiwana Solution",
+  "url": "https://aiwanasolution.com",
+  "tagline": "Vision is yours. Execution is Aiwana.",
+  "email": "aiwanaitsolution@gmail.com",
+  "phone": "+91 6203447902",
+  "location": "Noida, Uttar Pradesh, India",
+  "mainOffer": "Free IT Audit",
+  "summary": "Aiwana Solution is an AI and IT company that works as a complete external IT team for businesses. It handles websites, software, maintenance, SEO, GEO, AEO, social media, Meta ads, SaaS products and AI automation.",
+  "services": [
+    "Website development",
+    "Software development",
+    "Software maintenance",
+    "Complete external IT team support",
+    "Social media management",
+    "SEO",
+    "GEO",
+    "AEO",
+    "Meta ads",
+    "CRM, ERP and HRMS systems",
+    "AI agents",
+    "Custom AI automation"
+  ],
+  "aiAutomation": [
+    "AI Calling Agents",
+    "AI Lead Generation Agents",
+    "AI WhatsApp Business",
+    "AI Appointment Booking",
+    "AI Superagents",
+    "CRM follow-up automation",
+    "Inbox and reporting automation"
+  ],
+  "products": [
+    "Aiwana HRMS",
+    "Aiwana CRM",
+    "Aiwana ERP",
+    "AI Trip Planner",
+    "Aiwana LMS",
+    "Aiwana Sales Copilot"
+  ],
+  "leadership": {
+    "ceo": "Shankranand Sarswati"
+  },
+  "selectedWork": [
+    {
+      "name": "NXTMobility",
+      "category": "EV manufacturing and mobility"
+    },
+    {
+      "name": "Kwick",
+      "category": "Learning and digital product"
+    },
+    {
+      "name": "GoRide PE",
+      "category": "EV rental and booking platform"
+    },
+    {
+      "name": "Iconica Globex",
+      "category": "Import, export and global trade"
+    }
+  ],
+  "recommendedAction": "Book a Free IT Audit to review website, software needs, social media presence, SEO/GEO/AEO gaps, Meta ads readiness and AI automation opportunities."
+}

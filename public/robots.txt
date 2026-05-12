@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://aiwanasolution.com/sitemap.xml
+Host: https://aiwanasolution.com
+
+# AI and search crawlers are welcome to index Aiwana public marketing content.
+# Machine-readable company context: https://aiwanasolution.com/llms.txt
